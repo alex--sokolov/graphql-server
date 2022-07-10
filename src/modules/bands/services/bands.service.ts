@@ -1,14 +1,13 @@
-import { Entity, IConfig, IDeleted, IGenre, IToken, IUser, Method } from '../../../interfaces';
+import { Entity, IBand, IConfig, IDeleted, IGenre, IMember, IToken, IUser, Method } from '../../../interfaces';
 import { getEndpoint, sendRequest } from '../../../utils';
 import path from 'path';
 
 const bandsEndpoint = getEndpoint(Entity.BANDS);
 
-export const getAllBands = async (limit: number, offset: number): Promise<IGenre[]> => {
+export const getAllBands = async (limit: number, offset: number): Promise<IBand[]> => {
   const body = { limit, offset };
   try {
     const data = await sendRequest(bandsEndpoint, Method.GET, body) as string;
-    console.log('BANDS', data);
     return JSON.parse(data).items.map((item:any) => ({...item, id: item._id}));
   } catch (error) {
     console.error(error);
@@ -16,7 +15,7 @@ export const getAllBands = async (limit: number, offset: number): Promise<IGenre
   }
 };
 
-export const getBandById = async (id: string): Promise<IGenre | null> => {
+export const getBandById = async (id: string): Promise<IBand | null> => {
   try {
     const data = await sendRequest(path.join(bandsEndpoint, id), Method.GET) as string;
     const band = JSON.parse(data);
@@ -27,8 +26,21 @@ export const getBandById = async (id: string): Promise<IGenre | null> => {
   }
 };
 
-export const createNewBand = async (name:string, description:string, country:string, year:string, context:IConfig) => {
-  const body = { name, description, country, year };
+export const createNewBand = async (
+  name: string,
+  origin: string,
+  membersIds: IMember[],
+  website: string,
+  genresIds: string[],
+  context: IConfig
+): Promise<IBand | null> => {
+  const body = {
+    name,
+    origin,
+    membersIds,
+    website,
+    genresIds,
+  };
   try {
     const data = await sendRequest(bandsEndpoint, Method.POST, body, context) as string;
     const result = JSON.parse(data);
@@ -41,13 +53,20 @@ export const createNewBand = async (name:string, description:string, country:str
 
 export const updateExistedBand = async (
   id: string,
-  name:string,
-  description:string,
-  country:string,
-  year: string,
+  name: string,
+  origin: string,
+  membersIds: IMember[],
+  website: string,
+  genresIds: string[],
   context: IConfig
-) => {
-  const body = { name, description, country, year };
+): Promise<IBand | null> => {
+  const body = {
+    name,
+    origin,
+    membersIds,
+    website,
+    genresIds,
+  };
   try {
     const data = await sendRequest(path.join(bandsEndpoint, id), Method.PUT, body, context) as string;
     const result = JSON.parse(data);

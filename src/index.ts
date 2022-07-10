@@ -1,12 +1,13 @@
+import { ApolloServer } from 'apollo-server';
+import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader';
 import { loadSchemaSync } from '@graphql-tools/load';
 import { addResolversToSchema } from '@graphql-tools/schema';
-import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader';
-import { ApolloServer } from 'apollo-server';
 import { UsersResolver } from './modules/users/resolvers/users.resolver';
 import { GenresResolver } from './modules/genres/resolvers/genres.resolver';
 import { BandsResolver } from './modules/bands/resolvers/bands.resolver';
 import { ArtistsResolver } from './modules/artists/resolvers/artists.resolver';
 import { AlbumsResolver } from './modules/albums/resolvers/albums.resolver';
+import { TracksResolver } from './modules/tracks/resolvers/tracks.resolver';
 
 const HTTP_PORT = process.env.HTTP_PORT || 4000;
 
@@ -21,6 +22,7 @@ const resolvers = {
     ...BandsResolver.Query,
     ...ArtistsResolver.Query,
     ...AlbumsResolver.Query,
+    ...TracksResolver.Query,
   },
   Mutation: {
     ...UsersResolver.Mutation,
@@ -28,11 +30,9 @@ const resolvers = {
     ...BandsResolver.Mutation,
     ...ArtistsResolver.Mutation,
     ...AlbumsResolver.Mutation,
+    ...TracksResolver.Mutation,
   }
 };
-// const resolvers = {...UsersResolver};
-
-console.log(resolvers);
 
 const schemaWithResolvers = addResolversToSchema({
   schema,

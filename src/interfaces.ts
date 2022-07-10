@@ -42,14 +42,14 @@ export interface IDeleted {
 
 export interface IArtist {
   id: string;
-  firstName: string;
-  secondName: string;
-  middleName: string;
-  birthDate: string;
-  birthPlace: string;
-  country: string;
-  bandsIds: string[];
-  instruments: string[];
+  firstName?: string;
+  secondName?: string;
+  middleName?: string;
+  birthDate?: string;
+  birthPlace?: string;
+  country?: string;
+  bandsIds?: string[];
+  instruments?: string[];
 }
 
 export interface IArtistInputCreate {
@@ -84,18 +84,35 @@ export interface IUser {
 }
 
 export interface IMember {
-  artist: string,
-  instrument: string;
-  years: [string]
+  artist?: string,
+  instrument?: string;
+  years?: string;
 }
 
 export interface IBand {
   id: string;
+  name?: string;
+  origin?: string;
+  membersIds?: IMember[];
+  website?: string;
+  genresIds?: string[];
+}
+
+export interface IBandInputCreate {
   name: string;
-  origin: string;
-  membersId: IMember[];
-  website: string;
-  genresIds: string[];
+  origin?: string;
+  membersIds?: IMember[];
+  website?: string;
+  genresIds?: string[];
+}
+
+export interface IBandInputUpdate {
+  id: string;
+  name?: string;
+  origin?: string;
+  membersIds?: IMember[];
+  website?: string;
+  genresIds?: string[];
 }
 
 export interface IGenre {

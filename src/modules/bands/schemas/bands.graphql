@@ -1,7 +1,7 @@
 type Member {
     artist: String
     instrument: String
-    years: [String]
+    years: String
 }
 
 type Band {
@@ -21,20 +21,19 @@ input MemberInput {
 
 input BandInputCreate {
     name: String!
-    description: String
-    country: String
+    origin: String
     members: [MemberInput]
-    year: Int
     website: String
+    genres: [String]
 }
 
 input BandInputUpdate {
     id: ID!
-    description: String
-    country: String
+    name: String
+    origin: String
     members: [MemberInput]
-    year: Int
     website: String
+    genres: [String]
 }
 
 type Query {

@@ -1,13 +1,11 @@
 import {
   IArtist,
-  IArtistInputCreate, IArtistInputUpdate,
+  IArtistInputCreate,
+  IArtistInputUpdate,
   IConfig,
   IDataPart,
   IDeleted,
   IGenre,
-  IGenreInputCreate,
-  IGenreInputUpdate,
-  IToken
 } from '../../../interfaces';
 import {
   getAllArtists,
@@ -19,12 +17,12 @@ import {
 
 export const ArtistsResolver = {
   Query: {
-    artists: async (_: any, part: IDataPart): Promise<IGenre[]> => {
+    artists: async (_: any, part: IDataPart): Promise<IArtist[]> => {
       const limit = part.limit || 5;
       const offset = part.offset || 0;
       return await getAllArtists(limit, offset);
     },
-    artist: async (_: any, genre: Pick<IGenre, 'id'>): Promise<IGenre | null> => {
+    artist: async (_: any, genre: Pick<IGenre, 'id'>): Promise<IArtist | null> => {
       return await getArtistById(genre.id);
     }
   },
@@ -59,7 +57,7 @@ export const ArtistsResolver = {
         instruments,
         context);
     },
-    updateArtist: async (_: any, {artist}: {artist:IArtistInputUpdate}, context: IConfig): Promise<IGenre | null> => {
+    updateArtist: async (_: any, {artist}: {artist:IArtistInputUpdate}, context: IConfig): Promise<IArtist | null> => {
       const id = artist.id;
       const firstName = artist.firstName || '';
       const secondName = artist.secondName || '';
