@@ -4,7 +4,6 @@ import { request } from 'http';
 import { ENTITY } from './endpoints';
 
 export const getEndpoint = (entityName: Entity): string => {
-  console.log('entityName', entityName);
   const host = process.env.HOST || 'http://localhost';
   for (const [key, value] of Object.entries(ENTITY)) {
     if (key === entityName) {
@@ -16,17 +15,14 @@ export const getEndpoint = (entityName: Entity): string => {
 
 export const sendRequest = (path: string, method: Method, body?: any, context?: IConfig): Promise<string | void> => {
   return new Promise((resolve, reject) => {
-
-
-
     const info = body ? JSON.stringify(body) : '';
     const options = {
       method: method,
-      headers: {}
+      headers: {},
+      json: info,
     };
 
     if (context) {
-      console.log('TOKEN', context.config);
       options.headers = context.config.headers;
     }
 
@@ -37,7 +33,7 @@ export const sendRequest = (path: string, method: Method, body?: any, context?: 
         'Content-Length': Buffer.byteLength(info)
       };
     }
-
+    console.log('options', options);
     console.log('HEADERS', options.headers);
 
     if (method === Method.GET && body) {
@@ -49,16 +45,14 @@ export const sendRequest = (path: string, method: Method, body?: any, context?: 
     }
     console.log('path', path);
 
-
-
-
-
     const req = request(path, options, (res) => {
       let data = '';
       console.log('Status', res.statusCode);
       console.log('Headers', JSON.stringify(res.headers, null, 2));
       res.setEncoding('utf8');
+
       res.on('data', (chunk: string) => {
+        console.log('chunk', chunk);
         data += chunk;
       });
       res.on('end', (chunk: string | undefined) => {
@@ -76,4 +70,5 @@ export const sendRequest = (path: string, method: Method, body?: any, context?: 
     console.log('info', info);
     req.end(info);
   });
+
 };

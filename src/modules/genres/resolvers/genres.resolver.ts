@@ -35,15 +35,15 @@ export const GenresResolver = {
       const year = genre.year || '';
       return await createNewGenre(genre.name, description, country, year, context);
     },
-    updateGenre: async (token: IToken, {genre}: {genre:IGenreInputUpdate}): Promise<IGenre | null> => {
+    updateGenre: async (token: IToken, {genre}: {genre:IGenreInputUpdate}, context: IConfig): Promise<IGenre | null> => {
       const name = genre.name || '';
       const description = genre.description || '';
       const country = genre.country || '';
       const year = genre.year || '';
-      return await updateExistedGenre(genre.id, name, description, country, year);
+      return await updateExistedGenre(genre.id, name, description, country, year, context);
     },
-    deleteGenre: async (token: IToken, {genre}: {genre:Pick<IGenre, 'id'>}): Promise<IDeleted | null> => {
-      return await removeGenre(genre.id);
+    deleteGenre: async (token: IToken, genre: Pick<IGenre, 'id'>, context: IConfig): Promise<IDeleted | null> => {
+      return await removeGenre(genre.id, context);
     },
   }
 };

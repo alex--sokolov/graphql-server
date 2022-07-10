@@ -40,10 +40,17 @@ export const createNewGenre = async (name:string, description:string, country:st
   }
 };
 
-export const updateExistedGenre = async (id: string, firstName:string, lastName:string, email:string, password:string) => {
-  const body = { id, firstName, lastName, email, password };
+export const updateExistedGenre = async (
+  id: string,
+  name:string,
+  description:string,
+  country:string,
+  year: string,
+  context: IConfig
+) => {
+  const body = { name, description, country, year };
   try {
-    const data = await sendRequest(genresEndpoint, Method.PUT, body) as string;
+    const data = await sendRequest(path.join(genresEndpoint, id), Method.PUT, body, context) as string;
     const result = JSON.parse(data);
     return { ...result, id: result._id };
   } catch (error) {
@@ -52,9 +59,9 @@ export const updateExistedGenre = async (id: string, firstName:string, lastName:
   }
 };
 
-export const removeGenre = async (id: string): Promise<IDeleted | null> => {
+export const removeGenre = async (id: string, context:IConfig): Promise<IDeleted | null> => {
   try {
-    const data = await sendRequest(path.join(genresEndpoint, id), Method.DELETE) as string;
+    const data = await sendRequest(path.join(genresEndpoint, `${id}`), Method.DELETE, null, context) as string;
     return JSON.parse(data);
   } catch (error) {
     console.error(error);

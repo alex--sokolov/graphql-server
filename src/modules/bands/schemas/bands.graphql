@@ -3,3 +3,110 @@ type Member {
     instrument: String
     years: [String]
 }
+
+type Band {
+    id: ID!
+    name: String
+    origin: String
+    members: [Member]
+    website: String
+    genres: [Genre]
+}
+
+input MemberInput {
+    artist: String
+    instrument: String
+    years: String
+}
+
+input BandInputCreate {
+    name: String!
+    description: String
+    country: String
+    members: [MemberInput]
+    year: Int
+    website: String
+}
+
+input BandInputUpdate {
+    id: ID!
+    description: String
+    country: String
+    members: [MemberInput]
+    year: Int
+    website: String
+}
+
+type Query {
+    bands(limit: Int, offset: Int): [Band]
+    band(id: ID!): Band
+}
+
+type Mutation {
+    createBand(band: BandInputCreate): Band!
+    updateBand(band: BandInputUpdate): Band!
+    deleteBand(id: ID!): Deleted
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+type Bands {
+    offset: Int!
+    limit: Int!
+    total: Int!
+    items: [Band!]
+}
+
+type BandDelete {
+    acknowledged: Boolean
+    deletedCount: Int
+}
+
+input BandInputPost {
+    name: String!
+    origin: String
+    website: String
+    members: [MemberInput!]
+    genres: [ID!]
+}
+
+input BandInputPut {
+    name: String
+    origin: String
+    website: String
+    members: [MemberInput!]
+    genres: [ID!]
+}
+
+input MemberInput {
+    artist: ID!
+    instrument: String
+    years: [String]
+}
+
+type Query {
+    bands(limit: Int, offset: Int, filter: String): Bands
+    band(id: ID!): Band
+}
+
+type Mutation {
+    createBand(content: BandInputPost): Band
+    updateBand(id: ID!, content: BandInputPut): Band
+    deleteBand(id: ID!): BandDelete
+}
