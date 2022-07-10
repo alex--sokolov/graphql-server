@@ -160,6 +160,16 @@
     fast-json-stable-stringify "^2.1.0"
     tslib "^2.4.0"
 
+"@graphql-tools/resolvers-composition@^6.5.0":
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/@graphql-tools/resolvers-composition/-/resolvers-composition-6.5.0.tgz#83d7df7a13aff94e8225c7ed71f828767e031dd2"
+  integrity sha512-WH4LaWBtUr7wxQZ+/TnwPHARwOjsT5H2aiEpP2KhXAOcb8Kq0ZjRyCqkzHrl1WkTjizA8bNJe4nKcr1bzqv81A==
+  dependencies:
+    "@graphql-tools/utils" "8.8.0"
+    lodash "4.17.21"
+    micromatch "^4.0.4"
+    tslib "^2.4.0"
+
 "@graphql-tools/schema@8.5.0", "@graphql-tools/schema@^8.0.0", "@graphql-tools/schema@^8.5.0":
   version "8.5.0"
   resolved "https://registry.yarnpkg.com/@graphql-tools/schema/-/schema-8.5.0.tgz#0332b3a2e674d16e9bf8a58dfd47432449ce2368"
@@ -800,6 +810,17 @@ anymatch@~3.1.2:
   dependencies:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
+
+apollo-datasource-rest@^3.6.1:
+  version "3.6.1"
+  resolved "https://registry.yarnpkg.com/apollo-datasource-rest/-/apollo-datasource-rest-3.6.1.tgz#0975c5c8dfd1d2cbda58af268b9029451af8858e"
+  integrity sha512-3RMM48DKva01YrmPYpiBdtva7r9pJkgrMz7BuwAdhF2RXU9WhgOwZvUUZHqi+8ARNGRjVZA5BdCcEt8lIbYhOA==
+  dependencies:
+    "@apollo/utils.keyvaluecache" "^1.0.1"
+    apollo-datasource "^3.3.2"
+    apollo-server-env "^4.2.1"
+    apollo-server-errors "^3.3.1"
+    http-cache-semantics "^4.1.0"
 
 apollo-datasource@^3.3.2:
   version "3.3.2"
@@ -1879,6 +1900,11 @@ has@^1.0.3:
   dependencies:
     function-bind "^1.1.1"
 
+http-cache-semantics@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/http-cache-semantics/-/http-cache-semantics-4.1.0.tgz#49e91c5cbf36c9b94bcfcd71c23d5249ec74e390"
+  integrity sha512-carPklcUh7ROWRK7Cv27RPtdhYhUsela/ue5/jKzjegVvXDqM2ILE9Q2BGn9JZJh1g87cp56su/FgQSzcWS8cQ==
+
 http-errors@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/http-errors/-/http-errors-2.0.0.tgz#b7774a1486ef73cf7667ac9ae0858c012c57b9d3"
@@ -2196,6 +2222,11 @@ lodash.sortby@^4.7.0:
   version "4.7.0"
   resolved "https://registry.yarnpkg.com/lodash.sortby/-/lodash.sortby-4.7.0.tgz#edd14c824e2cc9c1e0b0a1b42bb5210516a42438"
   integrity sha512-HDWXG8isMntAyRF5vZ7xKuEvOhT4AhlRt/3czTSjvGUxjYCBVRQY48ViDHyfYz9VIoBkW4TMGQNapx+l3RUwdA==
+
+lodash@4.17.21:
+  version "4.17.21"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
+  integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
 
 loglevel@^1.6.8:
   version "1.8.0"

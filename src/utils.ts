@@ -1,25 +1,23 @@
-import { Entity, Method } from './interfaces';
+import { Entity, Method, IConfig } from './interfaces';
 import path from 'path';
 import { request } from 'http';
+import { ENTITY } from './endpoints';
 
-export const getEndpoint = (entity: Entity):string => {
-  const endpoints = {
-    genres: 'v1/genres',
-    artists: 'v1/artists',
-    bands: 'v1/bands',
-    users: 'v1/users',
-    albums: 'v1/albums',
-    tracks: 'v1/tracks',
-    favourites: 'v1/favourites',
-  }
-
+export const getEndpoint = (entityName: Entity): string => {
+  console.log('entityName', entityName);
   const host = process.env.HOST || 'http://localhost';
-  const port = process.env.USERS_PORT || `${entity}`;
-  return path.join(host+':'+port, endpoints.users);
-}
+  for (const [key, value] of Object.entries(ENTITY)) {
+    if (key === entityName) {
+      return path.join(host + ':' + value.port, value.endpoint);
+    }
+  }
+  return '';
+};
 
-export const sendRequest = (path:string, method: Method, body?:any): Promise<string | void> => {
+export const sendRequest = (path: string, method: Method, body?: any, context?: IConfig): Promise<string | void> => {
   return new Promise((resolve, reject) => {
+
+
 
     const info = body ? JSON.stringify(body) : '';
     const options = {
@@ -27,22 +25,43 @@ export const sendRequest = (path:string, method: Method, body?:any): Promise<str
       headers: {}
     };
 
+    if (context) {
+      console.log('TOKEN', context.config);
+      options.headers = context.config.headers;
+    }
+
     if (method === Method.POST || Method.PUT) {
       options.headers = {
+        ...options.headers,
         'Content-Type': 'application/json',
         'Content-Length': Buffer.byteLength(info)
-      }
+      };
+    }
+
+    console.log('HEADERS', options.headers);
+
+    if (method === Method.GET && body) {
+      const limit = body.limit ? `limit=${body.limit}` : '';
+      const offset = body.offset ? `offset=${body.offset}` : '';
+      path += limit
+        ? offset ? `?${limit}&${offset}` : `?${limit}`
+        : offset ? `?${offset}` : '';
     }
     console.log('path', path);
+
+
+
+
+
     const req = request(path, options, (res) => {
       let data = '';
       console.log('Status', res.statusCode);
       console.log('Headers', JSON.stringify(res.headers, null, 2));
       res.setEncoding('utf8');
-      res.on('data', (chunk:string) => {
+      res.on('data', (chunk: string) => {
         data += chunk;
       });
-      res.on('end', (chunk:string | undefined) => {
+      res.on('end', (chunk: string | undefined) => {
         console.log('No more data in response');
         if (chunk) data += chunk;
         console.log('data', data);
@@ -56,5 +75,5 @@ export const sendRequest = (path:string, method: Method, body?:any): Promise<str
     });
     console.log('info', info);
     req.end(info);
-  })
-}
+  });
+};

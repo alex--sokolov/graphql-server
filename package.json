@@ -15,9 +15,11 @@
   "dependencies": {
     "@graphql-tools/graphql-file-loader": "^7.4.0",
     "@graphql-tools/load": "^7.7.0",
+    "@graphql-tools/resolvers-composition": "^6.5.0",
     "@graphql-tools/schema": "^8.5.0",
     "@typescript-eslint/eslint-plugin": "^5.30.5",
     "@typescript-eslint/parser": "^5.30.5",
+    "apollo-datasource-rest": "^3.6.1",
     "apollo-server": "^3.9.0",
     "clean-webpack-plugin": "^4.0.0",
     "eslint": "^8.19.0",

@@ -11,7 +11,6 @@ type User {
 }
 
 input UserInput {
-    id: ID
     firstName: String!
     lastName: String!
     password: String!
@@ -27,15 +26,5 @@ type Query {
 }
 
 type Mutation {
-    register(
-        firstName: String!
-        lastName: String!
-        password: String!
-        email: String!
-    ): User!
-}
-
-type Delete {
-    acknowledged: Boolean
-    deletedCount: Int
+    register(user:UserInput): User!
 }

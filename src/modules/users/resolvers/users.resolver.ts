@@ -1,20 +1,20 @@
-import { getEndpoint } from '../../../utils';
-import { Entity, IToken, IUser} from '../../../interfaces';
-import { login, getUserById, auth } from '../services/user.service';
-
-export const userEndpoint = getEndpoint(Entity.USERS);
+import { IToken, IUser} from '../../../interfaces';
+import { auth, getUserById, login } from '../services/users.service';
 
 export const UsersResolver = {
   Query: {
     jwt: async (token: IToken, info: Pick<IUser, 'email' | 'password'>): Promise<IToken> => {
-      return await login(info.email, info.password);
+      console.log('JWT Resolver');
+      const res =  await login(info.email, info.password);
+      return res;
     },
     user: async (token: IToken, info: Pick<IUser, 'id'>): Promise<IUser | null> => {
       return await getUserById(info.id);
     }
   },
   Mutation: {
-    register: async (token: IToken, user: Omit<IUser, 'id'>): Promise<IUser | null> => {
+    register: async (token: IToken, {user}: {user:Omit<IUser, 'id'>}): Promise<IUser | null> => {
+      console.log('Register');
       return await auth(user.firstName, user.lastName, user.email, user.password);
     },
   }
