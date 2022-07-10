@@ -27,8 +27,27 @@ export const getArtistById = async (id: string): Promise<IGenre | null> => {
   }
 };
 
-export const createNewArtist = async (name:string, description:string, country:string, year:string, context:IConfig) => {
-  const body = { name, description, country, year };
+export const createNewArtist = async (
+  firstName:string,
+  secondName:string,
+  middleName:string,
+  birthDate:string,
+  birthPlace:string,
+  country:string,
+  bands:string[],
+  instruments:string[],
+  context:IConfig
+) => {
+  const body = {
+    firstName,
+    secondName,
+    middleName,
+    birthDate,
+    birthPlace,
+    country,
+    bands,
+    instruments
+  };
   try {
     const data = await sendRequest(artistsEndpoint, Method.POST, body, context) as string;
     const result = JSON.parse(data);
@@ -40,14 +59,27 @@ export const createNewArtist = async (name:string, description:string, country:s
 };
 
 export const updateExistedArtist = async (
-  id: string,
-  name:string,
-  description:string,
+  id:string,
+  firstName:string,
+  secondName:string,
+  middleName:string,
+  birthDate:string,
+  birthPlace:string,
   country:string,
-  year: string,
-  context: IConfig
+  bands:string[],
+  instruments:string[],
+  context:IConfig
 ) => {
-  const body = { name, description, country, year };
+  const body = {
+    firstName,
+    secondName,
+    middleName,
+    birthDate,
+    birthPlace,
+    country,
+    bands,
+    instruments
+  };
   try {
     const data = await sendRequest(path.join(artistsEndpoint, id), Method.PUT, body, context) as string;
     const result = JSON.parse(data);

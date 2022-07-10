@@ -23,6 +23,7 @@ input ArtistInputCreate {
 }
 
 input ArtistInputUpdate {
+    id: ID!
     firstName: String
     secondName: String
     middleName: String

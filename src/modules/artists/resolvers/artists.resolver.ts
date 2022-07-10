@@ -1,4 +1,6 @@
 import {
+  IArtist,
+  IArtistInputCreate, IArtistInputUpdate,
   IConfig,
   IDataPart,
   IDeleted,
@@ -17,32 +19,70 @@ import {
 
 export const ArtistsResolver = {
   Query: {
-    artists: async (token: IToken, part: IDataPart): Promise<IGenre[]> => {
+    artists: async (_: any, part: IDataPart): Promise<IGenre[]> => {
       const limit = part.limit || 5;
       const offset = part.offset || 0;
       return await getAllArtists(limit, offset);
     },
-    artist: async (token: IToken, genre: Pick<IGenre, 'id'>): Promise<IGenre | null> => {
+    artist: async (_: any, genre: Pick<IGenre, 'id'>): Promise<IGenre | null> => {
       return await getArtistById(genre.id);
     }
   },
+  // Artist: {
+  //   bands: async (parent: any) => {
+  //     const result = { ...parent };
+  //     if (parent.bandsIds) {
+  //       result.bands = await getBandsByIds(parent.bandsIds, bandsUrl);
+  //     }
+  //     return result.bands;
+  //   },
+  // },
   Mutation: {
-    createArtist: async (token: IToken, {genre}: {genre:IGenreInputCreate}, context: IConfig): Promise<IGenre | null> => {
-      console.log(token);
-      const description = genre.description || '';
-      const country = genre.country || '';
-      const year = genre.year || '';
-      return await createNewArtist(genre.name, description, country, year, context);
+    createArtist: async (_: any, {artist}: {artist:IArtistInputCreate}, context: IConfig): Promise<IArtist | null> => {
+      const firstName = artist.firstName;
+      const secondName = artist.secondName;
+      const middleName = artist.middleName || '';
+      const birthDate = artist.birthDate || '';
+      const birthPlace = artist.birthPlace || '';
+      const country = artist.country;
+      const bands = artist.bands || [];
+      const instruments = artist.instruments || [];
+
+      return await createNewArtist(
+        firstName,
+        secondName,
+        middleName,
+        birthDate,
+        birthPlace,
+        country,
+        bands,
+        instruments,
+        context);
     },
-    updateArtist: async (token: IToken, {genre}: {genre:IGenreInputUpdate}, context: IConfig): Promise<IGenre | null> => {
-      const name = genre.name || '';
-      const description = genre.description || '';
-      const country = genre.country || '';
-      const year = genre.year || '';
-      return await updateExistedArtist(genre.id, name, description, country, year, context);
+    updateArtist: async (_: any, {artist}: {artist:IArtistInputUpdate}, context: IConfig): Promise<IGenre | null> => {
+      const id = artist.id;
+      const firstName = artist.firstName || '';
+      const secondName = artist.secondName || '';
+      const middleName = artist.middleName || '';
+      const birthDate = artist.birthDate || '';
+      const birthPlace = artist.birthPlace || '';
+      const country = artist.country || '';
+      const bands = artist.bands || [];
+      const instruments = artist.instruments || [];
+      return await updateExistedArtist(
+        id,
+        firstName,
+        secondName,
+        middleName,
+        birthDate,
+        birthPlace,
+        country,
+        bands,
+        instruments,
+        context);
     },
-    deleteArtist: async (token: IToken, genre: Pick<IGenre, 'id'>, context: IConfig): Promise<IDeleted | null> => {
-      return await removeArtist(genre.id, context);
+    deleteArtist: async (_: any, artist: Pick<IArtist, 'id'>, context: IConfig): Promise<IDeleted | null> => {
+      return await removeArtist(artist.id, context);
     },
   }
 };
