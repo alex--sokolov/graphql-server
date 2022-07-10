@@ -43,6 +43,8 @@ export const GenresResolver = {
       return await updateExistedGenre(genre.id, name, description, country, year, context);
     },
     deleteGenre: async (token: IToken, genre: Pick<IGenre, 'id'>, context: IConfig): Promise<IDeleted | null> => {
+      console.log('ID', genre);
+      console.log('ID', genre.id);
       return await removeGenre(genre.id, context);
     },
   }

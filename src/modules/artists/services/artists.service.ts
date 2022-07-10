@@ -1,22 +1,36 @@
-import { Entity, IToken, IUser, Method } from '../../../interfaces';
+import { Entity, IConfig, IDeleted, IGenre, Method } from '../../../interfaces';
 import { getEndpoint, sendRequest } from '../../../utils';
 import path from 'path';
 
 const artistsEndpoint = getEndpoint(Entity.ARTISTS);
-export const login = async (email: string, password: string): Promise<IToken> => {
-  const body = { email, password };
+
+export const getAllArtists = async (limit: number, offset: number): Promise<IGenre[]> => {
+  const body = { limit, offset };
   try {
-    const data = await sendRequest(path.join(artistsEndpoint, 'login'), Method.POST, body) as string;
-    return JSON.parse(data);
+    const data = await sendRequest(artistsEndpoint, Method.GET, body) as string;
+    console.log('ArtistS', data);
+    return JSON.parse(data).items.map((item:any) => ({...item, id: item._id}));
   } catch (error) {
     console.error(error);
-    return null;
+    return [];
   }
 };
 
-export const getUserById = async (id: string): Promise<IUser | null> => {
+export const getArtistById = async (id: string): Promise<IGenre | null> => {
   try {
     const data = await sendRequest(path.join(artistsEndpoint, id), Method.GET) as string;
+    const Artist = JSON.parse(data);
+    return { ...Artist, id: Artist._id };
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+export const createNewArtist = async (name:string, description:string, country:string, year:string, context:IConfig) => {
+  const body = { name, description, country, year };
+  try {
+    const data = await sendRequest(artistsEndpoint, Method.POST, body, context) as string;
     const result = JSON.parse(data);
     return { ...result, id: result._id };
   } catch (error) {
@@ -25,12 +39,29 @@ export const getUserById = async (id: string): Promise<IUser | null> => {
   }
 };
 
-export const auth = async (firstName:string, lastName:string, email:string, password:string) => {
-  const body = { firstName, lastName, email, password };
+export const updateExistedArtist = async (
+  id: string,
+  name:string,
+  description:string,
+  country:string,
+  year: string,
+  context: IConfig
+) => {
+  const body = { name, description, country, year };
   try {
-    const data = await sendRequest(path.join(artistsEndpoint, 'register'), Method.POST, body) as string;
+    const data = await sendRequest(path.join(artistsEndpoint, id), Method.PUT, body, context) as string;
     const result = JSON.parse(data);
     return { ...result, id: result._id };
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+export const removeArtist = async (id: string, context:IConfig): Promise<IDeleted | null> => {
+  try {
+    const data = await sendRequest(path.join(artistsEndpoint, `${id}`), Method.DELETE, null, context) as string;
+    return JSON.parse(data);
   } catch (error) {
     console.error(error);
     return null;

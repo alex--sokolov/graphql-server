@@ -8,7 +8,7 @@ export const getAllTracks = async (limit: number, offset: number): Promise<IGenr
   const body = { limit, offset };
   try {
     const data = await sendRequest(tracksEndpoint, Method.GET, body) as string;
-    console.log('GENRES', data);
+    console.log('TrackS', data);
     return JSON.parse(data).items.map((item:any) => ({...item, id: item._id}));
   } catch (error) {
     console.error(error);
@@ -19,8 +19,8 @@ export const getAllTracks = async (limit: number, offset: number): Promise<IGenr
 export const getTrackById = async (id: string): Promise<IGenre | null> => {
   try {
     const data = await sendRequest(path.join(tracksEndpoint, id), Method.GET) as string;
-    const genre = JSON.parse(data);
-    return { ...genre, id: genre._id };
+    const Track = JSON.parse(data);
+    return { ...Track, id: Track._id };
   } catch (error) {
     console.error(error);
     return null;
@@ -58,7 +58,7 @@ export const updateExistedTrack = async (
   }
 };
 
-export const removeGenre = async (id: string, context:IConfig): Promise<IDeleted | null> => {
+export const removeTrack = async (id: string, context:IConfig): Promise<IDeleted | null> => {
   try {
     const data = await sendRequest(path.join(tracksEndpoint, `${id}`), Method.DELETE, null, context) as string;
     return JSON.parse(data);

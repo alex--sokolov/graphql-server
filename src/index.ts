@@ -4,6 +4,9 @@ import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader';
 import { ApolloServer } from 'apollo-server';
 import { UsersResolver } from './modules/users/resolvers/users.resolver';
 import { GenresResolver } from './modules/genres/resolvers/genres.resolver';
+import { BandsResolver } from './modules/bands/resolvers/bands.resolver';
+import { ArtistsResolver } from './modules/artists/resolvers/artists.resolver';
+import { AlbumsResolver } from './modules/albums/resolvers/albums.resolver';
 
 const HTTP_PORT = process.env.HTTP_PORT || 4000;
 
@@ -12,8 +15,20 @@ const schema = loadSchemaSync('./**/*.graphql', {
 });
 
 const resolvers = {
-  Query: { ...UsersResolver.Query, ...GenresResolver.Query },
-  Mutation: { ...UsersResolver.Mutation, ...GenresResolver.Mutation }
+  Query: {
+    ...UsersResolver.Query,
+    ...GenresResolver.Query,
+    ...BandsResolver.Query,
+    ...ArtistsResolver.Query,
+    ...AlbumsResolver.Query,
+  },
+  Mutation: {
+    ...UsersResolver.Mutation,
+    ...GenresResolver.Mutation,
+    ...BandsResolver.Mutation,
+    ...ArtistsResolver.Mutation,
+    ...AlbumsResolver.Mutation,
+  }
 };
 // const resolvers = {...UsersResolver};
 
