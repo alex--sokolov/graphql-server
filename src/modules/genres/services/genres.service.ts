@@ -1,16 +1,13 @@
-import {Entity, IBand, IConfig, IDeleted, IGenre, Method} from '../../../interfaces';
+import {Entity, IConfig, IDeleted, IGenre, Method} from '../../../interfaces';
 import { getEndpoint, sendRequest } from '../../../utils';
 import path from 'path';
-import {getBandById} from "../../bands/services/bands.service";
 
 const genresEndpoint = getEndpoint(Entity.GENRES);
 
 export const getAllGenres = async (limit: number, offset: number): Promise<IGenre[]> => {
   const body = { limit, offset };
-  console.log('genresEndpoint', genresEndpoint);
   try {
     const data = await sendRequest(genresEndpoint, Method.GET, body) as string;
-    console.log('GENRES', data);
     return JSON.parse(data).items.map((item:any) => ({...item, id: item._id}));
   } catch (error) {
     console.error(error);

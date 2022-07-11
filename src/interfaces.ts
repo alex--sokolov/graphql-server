@@ -212,12 +212,11 @@ export interface IAlbumInputUpdate {
 }
 
 export interface IFavorites {
-  id: string;
   userId: string;
   bandsIds: string[];
   genresIds: string[];
   artistsIds: string[];
-  tracksIds: string[];
+  trackIds: string[];
 }
 
 export interface IDeleted {
