@@ -1,7 +1,7 @@
 import { IToken, IUser} from '../../../interfaces';
 import { auth, getUserById, login } from '../services/users.service';
 
-export const UsersResolver = {
+export const resolver = {
   Query: {
     jwt: async (token: IToken, info: Pick<IUser, 'email' | 'password'>): Promise<IToken> => {
       console.log('JWT Resolver');

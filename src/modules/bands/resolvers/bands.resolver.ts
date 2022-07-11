@@ -15,7 +15,7 @@ import {
   removeBand
 } from '../services/bands.service';
 
-export const BandsResolver = {
+export const resolver = {
   Query: {
     bands: async (_: any, part: IDataPart): Promise<IBand[]> => {
       const limit = part.limit || 5;

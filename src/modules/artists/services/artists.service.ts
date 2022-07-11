@@ -8,7 +8,9 @@ export const getAllArtists = async (limit: number, offset: number): Promise<IArt
   const body = { limit, offset };
   try {
     const data = await sendRequest(artistsEndpoint, Method.GET, body) as string;
-    return JSON.parse(data).items.map((item:any) => ({...item, id: item._id}));
+    const artists =  JSON.parse(data).items.map((item:any) => ({...item, id: item._id}));
+    console.log(artists);
+    return artists;
   } catch (error) {
     console.error(error);
     return [];

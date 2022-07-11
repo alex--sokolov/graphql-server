@@ -16,7 +16,7 @@ import {
   removeAlbum
 } from '../services/albums.service';
 
-export const AlbumsResolver = {
+export const resolver = {
   Query: {
     albums: async (_: any, part: IDataPart): Promise<IAlbum[]> => {
       const limit = part.limit || 5;

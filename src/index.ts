@@ -1,74 +1,31 @@
-import { ApolloServer } from 'apollo-server';
-import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader';
-import { loadSchemaSync } from '@graphql-tools/load';
-import { addResolversToSchema } from '@graphql-tools/schema';
-import { UsersResolver } from './modules/users/resolvers/users.resolver';
-import { GenresResolver } from './modules/genres/resolvers/genres.resolver';
-import { BandsResolver } from './modules/bands/resolvers/bands.resolver';
-import { ArtistsResolver } from './modules/artists/resolvers/artists.resolver';
-import { AlbumsResolver } from './modules/albums/resolvers/albums.resolver';
-import { TracksResolver } from './modules/tracks/resolvers/tracks.resolver';
-import { printSchema } from 'graphql';
-// import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge';
-// import { loadFilesSync } from '@graphql-tools/load-files';
+import {ApolloServer} from 'apollo-server';
+import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge';
+import { loadFilesSync } from '@graphql-tools/load-files';
 const HTTP_PORT = process.env.HTTP_PORT || 4000;
-
-const schema = loadSchemaSync('./**/*.graphql', {
-  loaders: [new GraphQLFileLoader()],
-});
-
-const resolvers = {
-  Query: {
-    ...UsersResolver.Query,
-    ...GenresResolver.Query,
-    ...BandsResolver.Query,
-    ...ArtistsResolver.Query,
-    ...AlbumsResolver.Query,
-    ...TracksResolver.Query,
-  },
-  Mutation: {
-    ...UsersResolver.Mutation,
-    ...GenresResolver.Mutation,
-    ...BandsResolver.Mutation,
-    ...ArtistsResolver.Mutation,
-    ...AlbumsResolver.Mutation,
-    ...TracksResolver.Mutation,
-  },
-};
-
-const schemaWithResolvers = addResolversToSchema({
-  schema,
-  resolvers,
-});
-
-// const types = loadFilesSync('./**/**/*.graphql');
-// const typeDefs = mergeTypeDefs(types);
-//
-// const resolver = loadFilesSync('./**/**/*.resolver.ts');
-// const resolvers = mergeResolvers(resolver);
-
-// console.log(printSchema(schema));
+const types = loadFilesSync('./**/**/*.graphql');
+const typeDefs = mergeTypeDefs(types);
+const resolver = loadFilesSync('./**/**/*.resolver.ts');
+const resolvers = mergeResolvers(resolver);
 
 const server = new ApolloServer({
-  schema: schemaWithResolvers,
-  // typeDefs,
-  // resolvers,
-  csrfPrevention: true,
-  cache: 'bounded',
-  context: ({ req }) => ({
-    config: {
-      headers: {
-         Authorization: req.headers.authorization,
-        },
-      },
-    }),
-  }
+        typeDefs,
+        resolvers,
+        csrfPrevention: true,
+        cache: 'bounded',
+        context: ({req}) => ({
+            config: {
+                headers: {
+                    Authorization: req.headers.authorization,
+                },
+            },
+        }),
+    }
 );
 
-server.listen()
-  .then(({ url }) => {
-    console.log(`🚀  Apollo server starts on ${HTTP_PORT} port`);
-  })
-  .catch((error) => {
-    console.error(error);
-  });
+server.listen({port: HTTP_PORT})
+    .then(({url}) => {
+        console.log(`🚀  Apollo server starts on ${HTTP_PORT} port`);
+    })
+    .catch((error) => {
+        console.error(error);
+    });

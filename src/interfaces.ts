@@ -5,7 +5,7 @@ export enum Entity {
   USERS = 'USERS',
   ALBUMS = 'ALBUMS',
   TRACKS = 'TRACKS',
-  FAVORITES = 'FAVORITES',
+  FAVOURITES = 'FAVOURITES',
 }
 
 export enum Method {
@@ -48,6 +48,7 @@ export interface IArtist {
   birthDate?: string;
   birthPlace?: string;
   country?: string;
+  bands: IBand[];
   bandsIds?: string[];
   instruments?: string[];
 }
@@ -202,7 +203,7 @@ export interface IAlbumInputUpdate {
   released?: number;
 }
 
-export interface IFavorite {
+export interface IFavorites {
   id: string;
   userId: string;
   bandsIds: string[];

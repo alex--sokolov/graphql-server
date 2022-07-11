@@ -8,7 +8,7 @@ type Favourites {
 }
 
 type Query {
-    favourites: Favourites
+    favourites(userId: ID!): Favourites
 }
 
 type Mutation {

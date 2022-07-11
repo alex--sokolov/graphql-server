@@ -15,7 +15,7 @@ import {
   removeTrack
 } from '../services/tracks.service';
 
-export const TracksResolver = {
+export const resolver = {
   Query: {
     tracks: async (_: any, part: IDataPart): Promise<ITrack[]> => {
       const limit = part.limit || 5;

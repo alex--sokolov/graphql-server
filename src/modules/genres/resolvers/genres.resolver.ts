@@ -16,7 +16,7 @@ import {
   removeGenre
 } from '../services/genres.service';
 
-export const GenresResolver = {
+export const resolver = {
   Query: {
     genres: async (token: IToken, part: IDataPart): Promise<IGenre[]> => {
       const limit = part.limit || 5;

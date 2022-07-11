@@ -23,8 +23,8 @@ export const ENTITY = {
     port: process.env.TRACKS || 3006,
     endpoint: 'v1/tracks',
   },
-  FAVORITES: {
-    port: process.env.FAVORITES || 3007,
-    endpoint: 'v1/favorites',
+  FAVOURITES: {
+    port: process.env.FAVOURITES || 3007,
+    endpoint: 'v1/favourites',
   }
 };

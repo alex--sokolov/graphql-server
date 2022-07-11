@@ -59,7 +59,9 @@ export const sendRequest = ( path: string, method: Method, body?: any, context?:
         console.log('No more data in response');
         if (chunk) data += chunk;
         console.log('data', data);
-        resolve(data);
+        setTimeout(() => {
+          resolve(data);
+        }, 0);
       });
 
     });

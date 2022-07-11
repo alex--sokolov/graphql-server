@@ -1,8 +1,7 @@
 import {
-  Entity,
   IArtist,
   IArtistInputCreate,
-  IArtistInputUpdate, IBand,
+  IArtistInputUpdate,
   IConfig,
   IDataPart,
   IDeleted,
@@ -17,13 +16,10 @@ import {
 } from '../services/artists.service';
 import { getBandsByIds } from '../../bands/services/bands.service';
 
-export const ArtistsResolver = {
+export const resolver = {
 
   Query: {
-    artists: async (_: any, part: IDataPart, parents:any): Promise<IArtist[]> => {
-      console.log('-----------');
-      console.log('parents', parents);
-      console.log('-----------');
+    artists: async (_: any, part: IDataPart): Promise<IArtist[]> => {
       const limit = part.limit || 5;
       const offset = part.offset || 0;
       return await getAllArtists(limit, offset);
@@ -33,14 +29,66 @@ export const ArtistsResolver = {
     },
   },
   Artist: {
-    bands: async (parent: any):Promise<(IBand | null)[] | []> => {
-      console.log('Inside!!!');
-      const result = { ...parent };
+    bands: async (parent: any, args: { limit: any, offset: any }, context: IConfig, info: any) => {
+      // console.log('NESTED');
+      // console.log('parent', parent);
+      // console.log('args', args);
+      // console.log('context', context);
+      // console.log('info', info);
       if (parent.bandsIds) {
-        result.bands = await getBandsByIds(parent.bandsIds, Entity.ARTISTS);
+        return await getBandsByIds(parent.bandsIds);
       }
-      return result.bands;
+
+    //
+    //   return await getBandsForArtists();
+      // return [
+      //   {
+      //     id: "78687684573",
+      //     name: "jhjhgkjfhdf",
+      //     origin: "fdjgjfdgjkf"
+      //   },
+      //   {
+      //     id: "7868764554544",
+      //     name: "zzzzzzzzzz",
+      //     origin: "66666"
+      //   },
+      // ];
     }
+    // bands: async (parent: any, args: any, context: IConfig, info: any):Promise<(IBand[])> => {
+    //   console.log('Inside!!!');
+    //   console.log('NESTED');
+    //   console.log('parent', parent);
+    //   console.log('args', args);
+    //   console.log('context', context);
+    //   console.log('info', info);
+    //   // const res = await getBandsByIds(parent.bandsIds, Entity.ARTISTS);
+    //   // console.log(res);
+    //
+    //
+    //   const sleep = ():Promise<(IArtist[])> => {
+    //     return new Promise(resolve => setTimeout(() => {
+    //       parent.bands = [
+    //         {
+    //           id: "78687684573",
+    //           name: "jhjhgkjfhdf",
+    //           origin: "fdjgjfdgjkf"
+    //         }
+    //       ];
+    //       resolve(parent.bands);
+    //     }, 5000))
+    //   }
+    //
+    //   // const result = await sleep();
+    //   return await sleep();
+    //
+    //
+    //   //
+    //   // const result = { ...parent };
+    //   // if (parent.bandsIds) {
+    //   //   result.bands = await getBandsByIds(parent.bandsIds, Entity.ARTISTS);
+    //   // }
+    //   // return result.bands;
+    // }
   },
   Mutation: {
     createArtist: async (_: any, {artist}: {artist:IArtistInputCreate}, context: IConfig): Promise<IArtist | null> => {
