@@ -2,9 +2,9 @@ import {
   IConfig,
   IDataPart,
   IDeleted,
-  IGenre,
-  IGenreInputCreate,
-  IGenreInputUpdate,
+  ITrack,
+  ITrackInputCreate,
+  ITrackInputUpdate,
   IToken
 } from '../../../interfaces';
 import {
@@ -17,32 +17,58 @@ import {
 
 export const TracksResolver = {
   Query: {
-    tracks: async (token: IToken, part: IDataPart): Promise<IGenre[]> => {
+    tracks: async (_: any, part: IDataPart): Promise<ITrack[]> => {
       const limit = part.limit || 5;
       const offset = part.offset || 0;
       return await getAllTracks(limit, offset);
     },
-    track: async (token: IToken, genre: Pick<IGenre, 'id'>): Promise<IGenre | null> => {
-      return await getTrackById(genre.id);
+    track: async (_: any, track: Pick<ITrack, 'id'>): Promise<ITrack | null> => {
+      return await getTrackById(track.id);
     }
   },
   Mutation: {
-    createTrack: async (token: IToken, {genre}: {genre:IGenreInputCreate}, context: IConfig): Promise<IGenre | null> => {
-      console.log(token);
-      const description = genre.description || '';
-      const country = genre.country || '';
-      const year = genre.year || '';
-      return await createNewTrack(genre.name, description, country, year, context);
+    createTrack: async (_: any, { track }: { track: ITrackInputCreate }, context: IConfig): Promise<ITrack | null> => {
+      const title = track.title;
+      const album = track.album || '';
+      const artists = track.artists;
+      const bands = track.bands;
+      const genres = track.genres;
+      const duration = track.duration || 0;
+      const released = track.released || 0;
+      return await createNewTrack(
+        title,
+        album,
+        artists,
+        bands,
+        genres,
+        duration,
+        released,
+        context
+      );
     },
-    updateTrack: async (token: IToken, {genre}: {genre:IGenreInputUpdate}, context: IConfig): Promise<IGenre | null> => {
-      const name = genre.name || '';
-      const description = genre.description || '';
-      const country = genre.country || '';
-      const year = genre.year || '';
-      return await updateExistedTrack(genre.id, name, description, country, year, context);
+    updateTrack: async (_: any, { track }: { track: ITrackInputUpdate }, context: IConfig): Promise<ITrack | null> => {
+      const id = track.id;
+      const title = track.title;
+      const album = track.album || '';
+      const artists = track.artists;
+      const bands = track.bands;
+      const genres = track.genres;
+      const duration = track.duration || 0;
+      const released = track.released || 0;
+      return await updateExistedTrack(
+        id,
+        title || '',
+        album || '',
+        artists || [],
+        bands || [],
+        genres || [],
+        duration || 0,
+        released || 0,
+        context
+      );
     },
-    deleteTrack: async (token: IToken, genre: Pick<IGenre, 'id'>, context: IConfig): Promise<IDeleted | null> => {
-      return await removeTrack(genre.id, context);
+    deleteTrack: async (_: any, track: Pick<ITrack, 'id'>, context: IConfig): Promise<IDeleted | null> => {
+      return await removeTrack(track.id, context);
     },
   }
 };

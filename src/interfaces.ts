@@ -149,6 +149,27 @@ export interface ITrack {
   genresIds: string[];
 }
 
+export interface ITrackInputCreate {
+  title: string;
+  album?: string;
+  artists: string[];
+  bands: string[];
+  genres: string[];
+  duration?: number;
+  released?: number;
+}
+
+export interface ITrackInputUpdate {
+  id:string;
+  title?: string;
+  album?: string;
+  artists?: string[];
+  bands?: string[];
+  genres?: string[];
+  duration?: number;
+  released?: number;
+}
+
 export interface IAlbum {
   id: string;
   name?: string;
