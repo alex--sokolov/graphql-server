@@ -7,6 +7,7 @@ type Artist {
     birthPlace: String
     country: String
     bands: [Band]
+    bandsIds:[String]
     instruments: [String]
 }
 
@@ -18,7 +19,7 @@ input ArtistInputCreate {
     birthDate: String
     birthPlace: String
     country: String!
-    bands: [ID]
+    bandsIds: [ID]
     instruments: [String]
 }
 
@@ -30,7 +31,7 @@ input ArtistInputUpdate {
     birthDate: String
     birthPlace: String
     country: String
-    bands: [ID]
+    bandsIds: [ID]
     instruments: [String]
 }
 

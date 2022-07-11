@@ -15,9 +15,13 @@ export const getAllBands = async (limit: number, offset: number): Promise<IBand[
   }
 };
 
-export const getBandById = async (id: string): Promise<IBand | null> => {
+export const getBandById = async (id: string, entity?: Entity): Promise<IBand | null> => {
+  const endpoint = entity
+        ? getEndpoint(entity)
+        : bandsEndpoint;
+
   try {
-    const data = await sendRequest(path.join(bandsEndpoint, id), Method.GET) as string;
+    const data = await sendRequest(path.join(endpoint, id), Method.GET) as string;
     const band = JSON.parse(data);
     return { ...band, id: band._id };
   } catch (error) {
@@ -86,3 +90,14 @@ export const removeBand = async (id: string, context:IConfig): Promise<IDeleted 
     return null;
   }
 };
+
+export const getBandsByIds = async (ids: string[], entity: Entity):Promise<(IBand | null)[] | []> => {
+
+  console.log('getBandsByIds');
+  const responses = await Promise.all(
+    ids.map((id: string) => getBandById(id, entity))
+  );
+  console.log(responses);
+  if (!responses) return [];
+  return responses;
+}

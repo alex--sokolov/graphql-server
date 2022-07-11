@@ -1,4 +1,5 @@
 import {
+  IAlbum, IAlbumInputCreate, IAlbumInputUpdate,
   IConfig,
   IDataPart,
   IDeleted,
@@ -17,32 +18,58 @@ import {
 
 export const AlbumsResolver = {
   Query: {
-    albums: async (token: IToken, part: IDataPart): Promise<IGenre[]> => {
+    albums: async (_: any, part: IDataPart): Promise<IAlbum[]> => {
       const limit = part.limit || 5;
       const offset = part.offset || 0;
       return await getAllAlbums(limit, offset);
     },
-    album: async (token: IToken, genre: Pick<IGenre, 'id'>): Promise<IGenre | null> => {
+    album: async (_: any, genre: Pick<IGenre, 'id'>): Promise<IAlbum | null> => {
       return await getAlbumById(genre.id);
     }
   },
   Mutation: {
-    createAlbum: async (token: IToken, {genre}: {genre:IGenreInputCreate}, context: IConfig): Promise<IGenre | null> => {
-      console.log(token);
-      const description = genre.description || '';
-      const country = genre.country || '';
-      const year = genre.year || '';
-      return await createNewAlbum(genre.name, description, country, year, context);
+    createAlbum: async (_: any, {album}: {album:IAlbumInputCreate}, context: IConfig): Promise<IAlbum | null> => {
+      const name = album.name;
+      const tracks = album.tracks;
+      const artists = album.artists;
+      const bands = album.bands;
+      const genres = album.genres;
+      const image = album.image || '';
+      const released = album.released || 0;
+      return await createNewAlbum(
+      name,
+      tracks,
+      artists,
+      bands,
+      genres,
+      image,
+      released,
+      context
+      );
     },
-    updateAlbum: async (token: IToken, {genre}: {genre:IGenreInputUpdate}, context: IConfig): Promise<IGenre | null> => {
-      const name = genre.name || '';
-      const description = genre.description || '';
-      const country = genre.country || '';
-      const year = genre.year || '';
-      return await updateExistedAlbum(genre.id, name, description, country, year, context);
+    updateAlbum: async (_: any, {album}: {album:IAlbumInputUpdate}, context: IConfig): Promise<IAlbum | null> => {
+      const id = album.id;
+      const name = album.name || '';
+      const tracks = album.tracks || [];
+      const artists = album.artists || [];
+      const bands = album.bands || [];
+      const genres = album.genres || [];
+      const image = album.image || '';
+      const released = album.released || 0;
+      return await updateExistedAlbum(
+        id,
+        name,
+        tracks,
+        artists,
+        bands,
+        genres,
+        image,
+        released,
+        context
+      );
     },
-    deleteAlbum: async (token: IToken, genre: Pick<IGenre, 'id'>, context: IConfig): Promise<IDeleted | null> => {
-      return await removeAlbum(genre.id, context);
+    deleteAlbum: async (_: any, album: Pick<IAlbum, 'id'>, context: IConfig): Promise<IDeleted | null> => {
+      return await removeAlbum(album.id, context);
     },
   }
 };

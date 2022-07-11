@@ -59,7 +59,7 @@ export interface IArtistInputCreate {
   birthDate?: string;
   birthPlace?: string;
   country: string;
-  bands?: string[];
+  bandsIds?: string[];
   instruments?: string[]
 }
 
@@ -71,7 +71,7 @@ export interface IArtistInputUpdate {
   birthDate?: string;
   birthPlace?: string;
   country?: string;
-  bands?: string[];
+  bandsIds?: string[];
   instruments?: string[]
 }
 
@@ -151,13 +151,34 @@ export interface ITrack {
 
 export interface IAlbum {
   id: string;
+  name?: string;
+  released?: number;
+  artistsIds?: string[];
+  bandsIds?: string[];
+  trackIds?: string[];
+  genresIds?: string[];
+  image?: string;
+}
+
+export interface IAlbumInputCreate {
   name: string;
-  released: number;
-  artistsIds: string[];
-  bandsIds: string[];
-  trackIds: string[];
-  genresIds: string[];
-  image: string;
+  tracks: string[];
+  artists: string[];
+  bands: string[];
+  genres: string[];
+  image?: string;
+  released?: number;
+}
+
+export interface IAlbumInputUpdate {
+  id: string;
+  name?: string;
+  tracks?: string[];
+  artists?: string[];
+  bands?: string[];
+  genres?: string[];
+  image?: string;
+  released?: number;
 }
 
 export interface IFavorite {

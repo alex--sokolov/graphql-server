@@ -1,11 +1,11 @@
-import { Entity, IConfig, IDeleted, IGenre, IToken, IUser, Method } from '../../../interfaces';
+import { Entity, IAlbum, IConfig, IDeleted, IGenre, IToken, IUser, Method } from '../../../interfaces';
 import { getEndpoint, sendRequest } from '../../../utils';
 import path from 'path';
 
 const albumsEndpoint = getEndpoint(Entity.ALBUMS);
 
 
-export const getAllAlbums = async (limit: number, offset: number): Promise<IGenre[]> => {
+export const getAllAlbums = async (limit: number, offset: number): Promise<IAlbum[]> => {
   const body = { limit, offset };
   try {
     const data = await sendRequest(albumsEndpoint, Method.GET, body) as string;
@@ -17,7 +17,7 @@ export const getAllAlbums = async (limit: number, offset: number): Promise<IGenr
   }
 };
 
-export const getAlbumById = async (id: string): Promise<IGenre | null> => {
+export const getAlbumById = async (id: string): Promise<IAlbum | null> => {
   try {
     const data = await sendRequest(path.join(albumsEndpoint, id), Method.GET) as string;
     const Album = JSON.parse(data);
@@ -28,8 +28,25 @@ export const getAlbumById = async (id: string): Promise<IGenre | null> => {
   }
 };
 
-export const createNewAlbum = async (name:string, description:string, country:string, year:string, context:IConfig) => {
-  const body = { name, description, country, year };
+export const createNewAlbum = async (
+  name: string,
+  tracks: string[],
+  artists: string[],
+  bands: string[],
+  genres: string[],
+  image: string,
+  released: number,
+  context:IConfig
+): Promise<IAlbum | null> => {
+  const body = {
+    name,
+    tracks,
+    artists,
+    bands,
+    genres,
+    image,
+    released
+  };
   try {
     const data = await sendRequest(albumsEndpoint, Method.POST, body, context) as string;
     const result = JSON.parse(data);
@@ -42,13 +59,24 @@ export const createNewAlbum = async (name:string, description:string, country:st
 
 export const updateExistedAlbum = async (
   id: string,
-  name:string,
-  description:string,
-  country:string,
-  year: string,
-  context: IConfig
-) => {
-  const body = { name, description, country, year };
+  name: string,
+  tracks: string[],
+  artists: string[],
+  bands: string[],
+  genres: string[],
+  image: string,
+  released: number,
+  context:IConfig
+): Promise<IAlbum | null> => {
+  const body = {
+    name,
+    tracks,
+    artists,
+    bands,
+    genres,
+    image,
+    released
+  };
   try {
     const data = await sendRequest(path.join(albumsEndpoint, id), Method.PUT, body, context) as string;
     const result = JSON.parse(data);

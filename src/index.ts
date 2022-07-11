@@ -8,7 +8,9 @@ import { BandsResolver } from './modules/bands/resolvers/bands.resolver';
 import { ArtistsResolver } from './modules/artists/resolvers/artists.resolver';
 import { AlbumsResolver } from './modules/albums/resolvers/albums.resolver';
 import { TracksResolver } from './modules/tracks/resolvers/tracks.resolver';
-
+import { printSchema } from 'graphql';
+// import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge';
+// import { loadFilesSync } from '@graphql-tools/load-files';
 const HTTP_PORT = process.env.HTTP_PORT || 4000;
 
 const schema = loadSchemaSync('./**/*.graphql', {
@@ -39,8 +41,18 @@ const schemaWithResolvers = addResolversToSchema({
   resolvers
 });
 
+// const types = loadFilesSync('./**/**/*.graphql');
+// const typeDefs = mergeTypeDefs(types);
+//
+// const resolver = loadFilesSync('./**/**/*.resolver.ts');
+// const resolvers = mergeResolvers(resolver);
+
+// console.log(printSchema(schema));
+
 const server = new ApolloServer({
     schema: schemaWithResolvers,
+    // typeDefs,
+    // resolvers,
     csrfPrevention: true,
     cache: 'bounded',
     context: ({ req }) => ({

@@ -33,7 +33,7 @@ export const createNewArtist = async (
   birthDate:string,
   birthPlace:string,
   country:string,
-  bands:string[],
+  bandsIds:string[],
   instruments:string[],
   context:IConfig
 ): Promise<IArtist | null> => {
@@ -44,7 +44,7 @@ export const createNewArtist = async (
     birthDate,
     birthPlace,
     country,
-    bands,
+    bandsIds,
     instruments
   };
   try {
@@ -65,7 +65,7 @@ export const updateExistedArtist = async (
   birthDate:string,
   birthPlace:string,
   country:string,
-  bands:string[],
+  bandsIds:string[],
   instruments:string[],
   context:IConfig
 ): Promise<IArtist | null> => {
@@ -76,7 +76,7 @@ export const updateExistedArtist = async (
     birthDate,
     birthPlace,
     country,
-    bands,
+    bandsIds,
     instruments
   };
   try {

@@ -1,7 +1,8 @@
 import {
+  Entity,
   IArtist,
   IArtistInputCreate,
-  IArtistInputUpdate,
+  IArtistInputUpdate, IBand,
   IConfig,
   IDataPart,
   IDeleted,
@@ -14,27 +15,33 @@ import {
   updateExistedArtist,
   removeArtist
 } from '../services/artists.service';
+import { getBandsByIds } from '../../bands/services/bands.service';
 
 export const ArtistsResolver = {
+
   Query: {
-    artists: async (_: any, part: IDataPart): Promise<IArtist[]> => {
+    artists: async (_: any, part: IDataPart, parents:any): Promise<IArtist[]> => {
+      console.log('-----------');
+      console.log('parents', parents);
+      console.log('-----------');
       const limit = part.limit || 5;
       const offset = part.offset || 0;
       return await getAllArtists(limit, offset);
     },
     artist: async (_: any, genre: Pick<IGenre, 'id'>): Promise<IArtist | null> => {
       return await getArtistById(genre.id);
+    },
+  },
+  Artist: {
+    bands: async (parent: any):Promise<(IBand | null)[] | []> => {
+      console.log('Inside!!!');
+      const result = { ...parent };
+      if (parent.bandsIds) {
+        result.bands = await getBandsByIds(parent.bandsIds, Entity.ARTISTS);
+      }
+      return result.bands;
     }
   },
-  // Artist: {
-  //   bands: async (parent: any) => {
-  //     const result = { ...parent };
-  //     if (parent.bandsIds) {
-  //       result.bands = await getBandsByIds(parent.bandsIds, bandsUrl);
-  //     }
-  //     return result.bands;
-  //   },
-  // },
   Mutation: {
     createArtist: async (_: any, {artist}: {artist:IArtistInputCreate}, context: IConfig): Promise<IArtist | null> => {
       const firstName = artist.firstName;
@@ -43,7 +50,7 @@ export const ArtistsResolver = {
       const birthDate = artist.birthDate || '';
       const birthPlace = artist.birthPlace || '';
       const country = artist.country;
-      const bands = artist.bands || [];
+      const bandsIds = artist.bandsIds || [];
       const instruments = artist.instruments || [];
 
       return await createNewArtist(
@@ -53,7 +60,7 @@ export const ArtistsResolver = {
         birthDate,
         birthPlace,
         country,
-        bands,
+        bandsIds,
         instruments,
         context);
     },
@@ -65,7 +72,7 @@ export const ArtistsResolver = {
       const birthDate = artist.birthDate || '';
       const birthPlace = artist.birthPlace || '';
       const country = artist.country || '';
-      const bands = artist.bands || [];
+      const bandsIds = artist.bandsIds || [];
       const instruments = artist.instruments || [];
       return await updateExistedArtist(
         id,
@@ -75,7 +82,7 @@ export const ArtistsResolver = {
         birthDate,
         birthPlace,
         country,
-        bands,
+        bandsIds,
         instruments,
         context);
     },

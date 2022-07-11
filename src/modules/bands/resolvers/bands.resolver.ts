@@ -5,8 +5,6 @@ import {
   IDataPart,
   IDeleted,
   IGenre,
-  IGenreInputCreate,
-  IGenreInputUpdate,
   IToken
 } from '../../../interfaces';
 import {
