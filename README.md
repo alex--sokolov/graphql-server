@@ -10,6 +10,6 @@ graphql apollo-server
 ## Usage
 
 1. change .env-example to .env
-2. npm run start
+2. Use npm run start:dev
 3. go to http://localhost:4000 or whatever you specified in .env
 4. go to opollo-server playground and have fun!
