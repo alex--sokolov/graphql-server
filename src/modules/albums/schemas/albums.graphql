@@ -9,13 +9,12 @@ type Album {
     image: String
 }
 
-
 input AlbumInputCreate {
     name: String!
-    tracks: [ID!]
-    artists: [ID!]
-    bands: [ID!]
-    genres: [ID!]
+    trackIds: [ID!]
+    artistsIds: [ID!]
+    bandsIds: [ID!]
+    genresIds: [ID!]
     image: String
     released: Int
 }
@@ -24,10 +23,10 @@ input AlbumInputUpdate {
     id: ID!
     name: String
     released: Int
-    artists: [ID]
-    bands: [ID]
-    tracks: [ID]
-    genres: [ID]
+    artistsIds: [ID]
+    bandsIds: [ID]
+    trackIds: [ID]
+    genresIds: [ID]
     image: String
 }
 

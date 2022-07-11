@@ -1,6 +1,7 @@
-import { Entity, IConfig, IDeleted, ITrack, Method } from '../../../interfaces';
+import {Entity, IBand, IConfig, IDeleted, ITrack, Method} from '../../../interfaces';
 import { getEndpoint, sendRequest } from '../../../utils';
 import path from 'path';
+import {getBandById} from "../../bands/services/bands.service";
 
 const tracksEndpoint = getEndpoint(Entity.TRACKS);
 
@@ -94,3 +95,13 @@ export const removeTrack = async (id: string, context: IConfig): Promise<IDelete
     return null;
   }
 };
+
+export const getTracksByIds = async (ids: string[]):Promise<(ITrack | null)[] | []> => {
+  const responses = await Promise.all(
+      ids.map((id: string) => getTrackById(id))
+  );
+  console.log(responses);
+  if (!responses) return [];
+  return responses;
+}
+

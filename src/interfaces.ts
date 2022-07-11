@@ -97,6 +97,7 @@ export interface IBand {
   members: IMember[];
   website?: string;
   genresIds?: string[];
+  genres?: IGenre[];
 }
 
 export interface IBandInputCreate {
@@ -143,11 +144,14 @@ export interface ITrack {
   id: string;
   title: string;
   albumId: string;
+  artists: IArtist[];
+  bands: IBand[];
+  genres: IGenre[];
   artistsIds: string[];
   bandsIds: string[];
+  genresIds: string[];
   duration: number;
   released: number;
-  genresIds: string[];
 }
 
 export interface ITrackInputCreate {
@@ -175,19 +179,23 @@ export interface IAlbum {
   id: string;
   name?: string;
   released?: number;
+  artists?: IArtist[];
+  bands?: IBand[];
+  tracks?: ITrack[];
+  genres?: IGenre[];
   artistsIds?: string[];
+  image?: string;
   bandsIds?: string[];
   trackIds?: string[];
   genresIds?: string[];
-  image?: string;
 }
 
 export interface IAlbumInputCreate {
   name: string;
-  tracks: string[];
-  artists: string[];
-  bands: string[];
-  genres: string[];
+  trackIds: string[];
+  artistsIds: string[];
+  bandsIds: string[];
+  genresIds: string[];
   image?: string;
   released?: number;
 }
@@ -195,10 +203,10 @@ export interface IAlbumInputCreate {
 export interface IAlbumInputUpdate {
   id: string;
   name?: string;
-  tracks?: string[];
-  artists?: string[];
-  bands?: string[];
-  genres?: string[];
+  trackIds?: string[];
+  artistsIds?: string[];
+  bandsIds?: string[];
+  genresIds?: string[];
   image?: string;
   released?: number;
 }

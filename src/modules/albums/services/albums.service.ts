@@ -30,20 +30,20 @@ export const getAlbumById = async (id: string): Promise<IAlbum | null> => {
 
 export const createNewAlbum = async (
   name: string,
-  tracks: string[],
-  artists: string[],
-  bands: string[],
-  genres: string[],
+  trackIds: string[],
+  artistsIds: string[],
+  bandsIds: string[],
+  genresIds: string[],
   image: string,
   released: number,
   context:IConfig
 ): Promise<IAlbum | null> => {
   const body = {
     name,
-    tracks,
-    artists,
-    bands,
-    genres,
+    trackIds,
+    artistsIds,
+    bandsIds,
+    genresIds,
     image,
     released
   };
@@ -60,20 +60,20 @@ export const createNewAlbum = async (
 export const updateExistedAlbum = async (
   id: string,
   name: string,
-  tracks: string[],
-  artists: string[],
-  bands: string[],
-  genres: string[],
+  trackIds: string[],
+  artistsIds: string[],
+  bandsIds: string[],
+  genresIds: string[],
   image: string,
   released: number,
   context:IConfig
 ): Promise<IAlbum | null> => {
   const body = {
     name,
-    tracks,
-    artists,
-    bands,
-    genres,
+    trackIds,
+    artistsIds,
+    bandsIds,
+    genresIds,
     image,
     released
   };
