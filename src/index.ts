@@ -14,7 +14,7 @@ import { printSchema } from 'graphql';
 const HTTP_PORT = process.env.HTTP_PORT || 4000;
 
 const schema = loadSchemaSync('./**/*.graphql', {
-  loaders: [new GraphQLFileLoader()]
+  loaders: [new GraphQLFileLoader()],
 });
 
 const resolvers = {
@@ -33,12 +33,12 @@ const resolvers = {
     ...ArtistsResolver.Mutation,
     ...AlbumsResolver.Mutation,
     ...TracksResolver.Mutation,
-  }
+  },
 };
 
 const schemaWithResolvers = addResolversToSchema({
   schema,
-  resolvers
+  resolvers,
 });
 
 // const types = loadFilesSync('./**/**/*.graphql');
@@ -50,15 +50,15 @@ const schemaWithResolvers = addResolversToSchema({
 // console.log(printSchema(schema));
 
 const server = new ApolloServer({
-    schema: schemaWithResolvers,
-    // typeDefs,
-    // resolvers,
-    csrfPrevention: true,
-    cache: 'bounded',
-    context: ({ req }) => ({
-      config: {
-        headers: {
-          Authorization: req.headers.authorization,
+  schema: schemaWithResolvers,
+  // typeDefs,
+  // resolvers,
+  csrfPrevention: true,
+  cache: 'bounded',
+  context: ({ req }) => ({
+    config: {
+      headers: {
+         Authorization: req.headers.authorization,
         },
       },
     }),

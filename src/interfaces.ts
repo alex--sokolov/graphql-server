@@ -5,14 +5,14 @@ export enum Entity {
   USERS = 'USERS',
   ALBUMS = 'ALBUMS',
   TRACKS = 'TRACKS',
-  FAVORITES = 'FAVORITES'
+  FAVORITES = 'FAVORITES',
 }
 
 export enum Method {
   GET = 'GET',
   POST = 'POST',
   PUT = 'PUT',
-  DELETE = 'DELETE'
+  DELETE = 'DELETE',
 }
 
 export interface ITokenExist {
@@ -22,7 +22,7 @@ export interface ITokenExist {
 export interface IConfig {
   config: {
     headers: {
-      Authorization: string
+      Authorization: string;
     }
   }
 }
@@ -60,7 +60,7 @@ export interface IArtistInputCreate {
   birthPlace?: string;
   country: string;
   bandsIds?: string[];
-  instruments?: string[]
+  instruments?: string[];
 }
 
 export interface IArtistInputUpdate {
@@ -72,7 +72,7 @@ export interface IArtistInputUpdate {
   birthPlace?: string;
   country?: string;
   bandsIds?: string[];
-  instruments?: string[]
+  instruments?: string[];
 }
 
 export interface IUser {

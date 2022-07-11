@@ -3,7 +3,7 @@ import path from 'path';
 import { request } from 'http';
 import { ENTITY } from './endpoints';
 
-export const getEndpoint = (entityName: Entity): string => {
+export const getEndpoint = ( entityName: Entity ): string => {
   const host = process.env.HOST || 'http://localhost';
   for (const [key, value] of Object.entries(ENTITY)) {
     if (key === entityName) {
@@ -13,7 +13,7 @@ export const getEndpoint = (entityName: Entity): string => {
   return '';
 };
 
-export const sendRequest = (path: string, method: Method, body?: any, context?: IConfig): Promise<string | void> => {
+export const sendRequest = ( path: string, method: Method, body?: any, context?: IConfig ): Promise<string | void> => {
   return new Promise((resolve, reject) => {
     const info = body ? JSON.stringify(body) : '';
     const options = {
@@ -30,7 +30,7 @@ export const sendRequest = (path: string, method: Method, body?: any, context?: 
       options.headers = {
         ...options.headers,
         'Content-Type': 'application/json',
-        'Content-Length': Buffer.byteLength(info)
+        'Content-Length': Buffer.byteLength(info),
       };
     }
     console.log('options', options);
