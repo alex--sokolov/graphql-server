@@ -1,6 +1,7 @@
-import { Entity, IConfig, IDeleted, IGenre, Method } from '../../../interfaces';
+import {Entity, IBand, IConfig, IDeleted, IGenre, Method} from '../../../interfaces';
 import { getEndpoint, sendRequest } from '../../../utils';
 import path from 'path';
+import {getBandById} from "../../bands/services/bands.service";
 
 const genresEndpoint = getEndpoint(Entity.GENRES);
 
@@ -68,3 +69,12 @@ export const removeGenre = async (id: string, context:IConfig): Promise<IDeleted
     return null;
   }
 };
+
+export const getGenresByIds = async (ids: string[]):Promise<(IGenre | null)[] | []> => {
+  const responses = await Promise.all(
+      ids.map((id: string) => getGenreById(id))
+  );
+  console.log(responses);
+  if (!responses) return [];
+  return responses;
+}

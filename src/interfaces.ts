@@ -30,8 +30,8 @@ export interface IConfig {
 export type IToken = ITokenExist | null;
 
 export interface IDataPart {
-  limit?: number;
-  offset?: number;
+  limit: number;
+  offset: number;
 }
 
 export interface IDeleted {
@@ -87,7 +87,7 @@ export interface IUser {
 export interface IMember {
   artist?: string,
   instrument?: string;
-  years?: string;
+  years?: string[];
 }
 
 export interface IBand {
@@ -102,7 +102,7 @@ export interface IBand {
 export interface IBandInputCreate {
   name: string;
   origin?: string;
-  membersIds?: IMember[];
+  members?: IMember[];
   website?: string;
   genresIds?: string[];
 }

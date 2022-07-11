@@ -8,7 +8,10 @@ export const getAllBands = async (limit: number, offset: number): Promise<IBand[
   const body = { limit, offset };
   try {
     const data = await sendRequest(bandsEndpoint, Method.GET, body) as string;
-    return JSON.parse(data).items.map((item:any) => ({...item, id: item._id}));
+    return JSON.parse(data).items.map((item:any) => {
+      const members = item.members.map((member:IMember) => Array.isArray(member.years) && {...member, years: member.years.join('')});
+      return {...item, members: members, id: item._id}
+    });
   } catch (error) {
     console.error(error);
     return [];
@@ -19,7 +22,8 @@ export const getBandById = async (id: string): Promise<IBand | null> => {
   try {
     const data = await sendRequest(path.join(bandsEndpoint, id), Method.GET) as string;
     const band = JSON.parse(data);
-    return { ...band, id: band._id };
+    const members = band.members.map((member:IMember) => Array.isArray(member.years) && {...member, years: member.years.join('')});
+    return { ...band, members: members, id: band._id };
   } catch (error) {
     console.error(error);
     return null;
@@ -29,7 +33,7 @@ export const getBandById = async (id: string): Promise<IBand | null> => {
 export const createNewBand = async (
   name: string,
   origin: string,
-  membersIds: IMember[],
+  members: IMember[],
   website: string,
   genresIds: string[],
   context: IConfig
@@ -37,14 +41,15 @@ export const createNewBand = async (
   const body = {
     name,
     origin,
-    membersIds,
+    members,
     website,
     genresIds,
   };
   try {
     const data = await sendRequest(bandsEndpoint, Method.POST, body, context) as string;
-    const result = JSON.parse(data);
-    return { ...result, id: result._id };
+    const band = JSON.parse(data);
+    const members = band.members.map((member:IMember) => Array.isArray(member.years) && {...member, years: member.years.join('')});
+    return { ...band, members: members, id: band._id };
   } catch (error) {
     console.error(error);
     return null;
@@ -69,8 +74,9 @@ export const updateExistedBand = async (
   };
   try {
     const data = await sendRequest(path.join(bandsEndpoint, id), Method.PUT, body, context) as string;
-    const result = JSON.parse(data);
-    return { ...result, id: result._id };
+    const band = JSON.parse(data);
+    const members = band.members.map((member:IMember) => Array.isArray(member.years) && {...member, years: member.years.join('')});
+    return { ...band, members: members, id: band._id };
   } catch (error) {
     console.error(error);
     return null;
@@ -88,8 +94,6 @@ export const removeBand = async (id: string, context:IConfig): Promise<IDeleted 
 };
 
 export const getBandsByIds = async (ids: string[]):Promise<(IBand | null)[] | []> => {
-
-  console.log('getBandsByIds');
   const responses = await Promise.all(
     ids.map((id: string) => getBandById(id))
   );
