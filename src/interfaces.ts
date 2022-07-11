@@ -94,7 +94,7 @@ export interface IBand {
   id: string;
   name?: string;
   origin?: string;
-  membersIds?: IMember[];
+  members: IMember[];
   website?: string;
   genresIds?: string[];
 }
@@ -111,7 +111,7 @@ export interface IBandInputUpdate {
   id: string;
   name?: string;
   origin?: string;
-  membersIds?: IMember[];
+  members?: IMember[];
   website?: string;
   genresIds?: string[];
 }
@@ -153,9 +153,9 @@ export interface ITrack {
 export interface ITrackInputCreate {
   title: string;
   album?: string;
-  artists: string[];
-  bands: string[];
-  genres: string[];
+  artistsIds: string[];
+  bandsIds: string[];
+  genresIds: string[];
   duration?: number;
   released?: number;
 }
@@ -164,9 +164,9 @@ export interface ITrackInputUpdate {
   id:string;
   title?: string;
   album?: string;
-  artists?: string[];
-  bands?: string[];
-  genres?: string[];
+  artistsIds?: string[];
+  bandsIds?: string[];
+  genresIds?: string[];
   duration?: number;
   released?: number;
 }

@@ -29,9 +29,9 @@ export const getTrackById = async (id: string): Promise<ITrack | null> => {
 export const createNewTrack = async (
   title: string,
   album: string,
-  artists: string[],
-  bands: string[],
-  genres: string[],
+  artistsIds: string[],
+  bandsIds: string[],
+  genresIds: string[],
   duration: number,
   released: number,
   context: IConfig
@@ -39,9 +39,9 @@ export const createNewTrack = async (
   const body = {
     title,
     album,
-    artists,
-    bands,
-    genres,
+    artistsIds,
+    bandsIds,
+    genresIds,
     duration,
     released,
   };
@@ -59,9 +59,9 @@ export const updateExistedTrack = async (
   id: string,
   title: string,
   album: string,
-  artists: string[],
-  bands: string[],
-  genres: string[],
+  artistsIds: string[],
+  bandsIds: string[],
+  genresIds: string[],
   duration: number,
   released: number,
   context: IConfig
@@ -69,9 +69,9 @@ export const updateExistedTrack = async (
   const body = {
     title,
     album,
-    artists,
-    bands,
-    genres,
+    artistsIds,
+    bandsIds,
+    genresIds,
     duration,
     released,
   };

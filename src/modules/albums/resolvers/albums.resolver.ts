@@ -3,10 +3,7 @@ import {
   IConfig,
   IDataPart,
   IDeleted,
-  IGenre,
-  IGenreInputCreate,
-  IGenreInputUpdate,
-  IToken
+  IGenre
 } from '../../../interfaces';
 import {
   getAllAlbums,

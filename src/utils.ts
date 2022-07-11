@@ -16,6 +16,7 @@ export const getEndpoint = ( entityName: Entity ): string => {
 export const sendRequest = ( path: string, method: Method, body?: any, context?: IConfig ): Promise<string | void> => {
   return new Promise((resolve, reject) => {
     const info = body ? JSON.stringify(body) : '';
+    console.log("BODY", info);
     const options = {
       method: method,
       headers: {},

@@ -1,5 +1,4 @@
 import {
-  IArtist,
   IBand,
   IBandInputCreate, IBandInputUpdate,
   IConfig,
@@ -13,7 +12,7 @@ import {
   getBandById,
   createNewBand,
   updateExistedBand,
-  removeBand, getBandsByIds
+  removeBand,
 } from '../services/bands.service';
 import {getGenresByIds} from "../../genres/services/genres.service";
 
@@ -33,7 +32,7 @@ export const resolver = {
       if (parent.genresIds) {
         return await getGenresByIds(parent.genresIds);
       } else return [];
-    }
+    },
   },
 
   Mutation: {
@@ -56,14 +55,14 @@ export const resolver = {
       const id = band.id;
       const name = band.name || '';
       const origin = band.origin || '';
-      const membersIds = band.membersIds || [];
+      const members = band.members || [];
       const website = band.website || '';
       const genresIds = band.genresIds || [];
       return await updateExistedBand(
         id,
         name,
         origin,
-        membersIds,
+        members,
         website,
         genresIds,
         context

@@ -1,6 +1,7 @@
-import { Entity, IArtist, IConfig, IDeleted, Method } from '../../../interfaces';
+import {Entity, IArtist, IBand, IConfig, IDeleted, Method} from '../../../interfaces';
 import { getEndpoint, sendRequest } from '../../../utils';
 import path from 'path';
+import {getBandById} from "../../bands/services/bands.service";
 
 const artistsEndpoint = getEndpoint(Entity.ARTISTS);
 
@@ -100,3 +101,12 @@ export const removeArtist = async (id: string, context:IConfig): Promise<IDelete
     return null;
   }
 };
+
+export const getArtistsByIds = async (ids: string[]):Promise<(IArtist | null)[] | []> => {
+  const responses = await Promise.all(
+      ids.map((id: string) => getArtistById(id))
+  );
+  console.log(responses);
+  if (!responses) return [];
+  return responses;
+}

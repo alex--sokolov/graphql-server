@@ -9,7 +9,7 @@ export const getAllBands = async (limit: number, offset: number): Promise<IBand[
   try {
     const data = await sendRequest(bandsEndpoint, Method.GET, body) as string;
     return JSON.parse(data).items.map((item:any) => {
-      const members = item.members.map((member:IMember) => Array.isArray(member.years) && {...member, years: member.years.join('')});
+      const members = item.members.map((member:IMember) => Array.isArray(member.years) && {...member, years: member.years.join('')} || member);
       return {...item, members: members, id: item._id}
     });
   } catch (error) {
@@ -22,7 +22,9 @@ export const getBandById = async (id: string): Promise<IBand | null> => {
   try {
     const data = await sendRequest(path.join(bandsEndpoint, id), Method.GET) as string;
     const band = JSON.parse(data);
-    const members = band.members.map((member:IMember) => Array.isArray(member.years) && {...member, years: member.years.join('')});
+    console.log('BAND', band);
+    const members = band.members.map((member:IMember) => Array.isArray(member.years) && {...member, years: member.years.join('')} || member);
+    console.log('FINAL', { ...band, members: members, id: band._id })
     return { ...band, members: members, id: band._id };
   } catch (error) {
     console.error(error);
@@ -48,7 +50,7 @@ export const createNewBand = async (
   try {
     const data = await sendRequest(bandsEndpoint, Method.POST, body, context) as string;
     const band = JSON.parse(data);
-    const members = band.members.map((member:IMember) => Array.isArray(member.years) && {...member, years: member.years.join('')});
+    const members = band.members.map((member:IMember) => Array.isArray(member.years) && {...member, years: member.years.join('')} || member);
     return { ...band, members: members, id: band._id };
   } catch (error) {
     console.error(error);
@@ -60,7 +62,7 @@ export const updateExistedBand = async (
   id: string,
   name: string,
   origin: string,
-  membersIds: IMember[],
+  members: IMember[],
   website: string,
   genresIds: string[],
   context: IConfig
@@ -68,14 +70,14 @@ export const updateExistedBand = async (
   const body = {
     name,
     origin,
-    membersIds,
+    members,
     website,
     genresIds,
   };
   try {
     const data = await sendRequest(path.join(bandsEndpoint, id), Method.PUT, body, context) as string;
     const band = JSON.parse(data);
-    const members = band.members.map((member:IMember) => Array.isArray(member.years) && {...member, years: member.years.join('')});
+    const members = band.members.map((member:IMember) => Array.isArray(member.years) && {...member, years: member.years.join('')} || member);
     return { ...band, members: members, id: band._id };
   } catch (error) {
     console.error(error);
